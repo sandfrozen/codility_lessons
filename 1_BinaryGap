@@ -1,0 +1,52 @@
+function pow(times) {
+    if( times === 0 ) return 1
+    if( times === 1 ) return 2
+    
+    return 2 * pow(times-1)
+}
+
+function intToBin(n) {
+    let value = 0
+    let power = 0
+    let bin = ""
+    while(value < n) {
+        value = pow(power)
+        power = power + 1
+    }
+    
+    power -= 2
+    value /= 2
+    bin = "1"
+    let sum = pow(power)
+    
+    while(power > 0) {
+        const b = pow(--power)
+        if((sum+b) > n) {
+            bin = bin + "0"
+        } else {
+            sum += b
+            bin = bin + "1"
+        }
+    }
+    return bin
+}
+
+function solution(N) {
+    const binaryRepresentation = intToBin(N)
+    // console.log('binaryRepresentation', binaryRepresentation)
+    let gapLength = binaryRepresentation.length-2
+    while(gapLength > 0) {
+        let gapPattern = "1"
+        for(let i=0; i<gapLength; i++) {
+            gapPattern += "0"
+        }
+        gapPattern += "1"
+        if(binaryRepresentation.includes(gapPattern)) {
+            return gapLength
+        }
+        gapLength--
+    }
+    
+    return gapLength
+}
+
